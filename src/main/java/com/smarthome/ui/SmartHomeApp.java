@@ -34,7 +34,6 @@ public class SmartHomeApp extends Application {
     private Timeline timer;
     private MusicPlayer musicPlayer;
 
-    @Override
     public void start(Stage stage) {
         logger = new ActionLogger();
         Room livingRoom = new Room("Living Room");
@@ -66,9 +65,27 @@ public class SmartHomeApp extends Application {
         roomControlPane.setPadding(new Insets(15));
         roomControlPane.setStyle("-fx-background-color: #f9f9f9; -fx-background-radius: 10;");
 
-        Label roomLabel = new Label("Rooms managment:");
+        Label roomLabel = new Label("Rooms management:");
         roomLabel.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         roomControlPane.getChildren().add(roomLabel);
+
+        // --- Кнопки включить/выключить всё
+        HBox quickButtons = new HBox(10);
+        Button btnAllOn = createControlButton("Turn All ON", "#2ecc71");
+        Button btnAllOff = createControlButton("Turn All OFF", "#e74c3c");
+
+        btnAllOn.setOnAction(e -> {
+            smartHome.turnAllOn();
+            updateLog();
+        });
+
+        btnAllOff.setOnAction(e -> {
+            smartHome.turnAllOff();
+            updateLog();
+        });
+
+        quickButtons.getChildren().addAll(btnAllOn, btnAllOff);
+        roomControlPane.getChildren().add(quickButtons);
 
         GridPane roomGrid = new GridPane();
         roomGrid.setHgap(10);
@@ -117,7 +134,6 @@ public class SmartHomeApp extends Application {
         logPane.getChildren().addAll(logLabel, logArea);
         root.getChildren().add(logPane);
 
-        // Встроенный Music Player
         root.getChildren().add(buildMusicPlayerUI(stage));
 
         Scene scene = new Scene(root, 650, 750);
@@ -180,7 +196,6 @@ public class SmartHomeApp extends Application {
         musicUI.setRight(playlistPane);
         BorderPane.setMargin(playlistPane, new Insets(0, 0, 0, 15));
 
-        // Events
         btnLoad.setOnAction(e -> {
             FileChooser chooser = new FileChooser();
             chooser.setTitle("Choose mp3 files");
@@ -243,8 +258,8 @@ public class SmartHomeApp extends Application {
 
     private Button createIconButton(String text, String color, double size) {
         Button button = new Button(text);
-        button.setStyle("-fx-background-color: " + color + "; -fx-text-fill: white; -fx-font-size: " + (size/2) + "px; " +
-                "-fx-min-width: " + size + "px; -fx-min-height: " + size + "px; -fx-background-radius: " + (size/2) + "px;");
+        button.setStyle("-fx-background-color: " + color + "; -fx-text-fill: white; -fx-font-size: " + (size / 2) + "px; " +
+                "-fx-min-width: " + size + "px; -fx-min-height: " + size + "px; -fx-background-radius: " + (size / 2) + "px;");
         return button;
     }
 

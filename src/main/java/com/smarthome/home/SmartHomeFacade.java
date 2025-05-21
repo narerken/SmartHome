@@ -17,6 +17,37 @@ public class SmartHomeFacade {
         this.logger = logger;
     }
 
+    public void turnAllOn() {
+        livingRoom.turnOn("Light");
+        livingRoom.turnOn("AC");
+        livingRoom.turnOn("Speaker");
+
+        kitchen.turnOn("Light");
+        kitchen.turnOn("AC");
+        kitchen.turnOn("Speaker");
+
+        musicPlayer.play();
+
+        logger.log("Living Room", "All devices turned ON");
+        logger.log("Kitchen", "All devices turned ON");
+        logger.log("MusicPlayer", "Playback started");
+    }
+
+    public void turnAllOff() {
+        livingRoom.turnOff("Light");
+        livingRoom.turnOff("AC");
+        livingRoom.turnOff("Speaker");
+
+        kitchen.turnOff("Light");
+        kitchen.turnOff("AC");
+        kitchen.turnOff("Speaker");
+
+        musicPlayer.stop();
+
+        logger.log("Living Room", "All devices turned OFF");
+        logger.log("Kitchen", "All devices turned OFF");
+        logger.log("MusicPlayer", "Playback stopped");
+    }
 
     public MusicPlayer getMusicPlayer() {
         return musicPlayer;
